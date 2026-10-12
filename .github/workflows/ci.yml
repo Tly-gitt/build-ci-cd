@@ -43,32 +43,32 @@ jobs:
       - name: Push Docker image
         run: |
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/springboot_ci_cd:latest
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v1.2.5
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USERNAME }}
-          key: ${{ secrets.VPS_PRIVATE_KEY }}
-          script: |
-            mkdir -p ~/backend-app
-            cd ~/backend-app
-            if [ ! -d "springboot_ci_cd" ]; then
-            git clone git@github.com:Tly-gitt/build-ci-cd.git
-            else
-            cd springboot_ci_cd
-            git pull origin main
-            fi
+  #   steps:
+  #     - name: Deploy to VPS
+  #       uses: appleboy/ssh-action@v1.2.5
+  #       with:
+  #         host: ${{ secrets.VPS_HOST }}
+  #         username: ${{ secrets.VPS_USERNAME }}
+  #         key: ${{ secrets.VPS_PRIVATE_KEY }}
+  #         script: |
+  #           mkdir -p ~/backend-app
+  #           cd ~/backend-app
+  #           if [ ! -d "springboot_ci_cd" ]; then
+  #           git clone git@github.com:Tly-gitt/build-ci-cd.git
+  #           else
+  #           cd springboot_ci_cd
+  #           git pull origin main
+  #           fi
   
-            cd ~/backend-app/springboot_ci_cd
+  #           cd ~/backend-app/springboot_ci_cd
   
-            docker compose pull backend
+  #           docker compose pull backend
   
-            docker compose up -d backend
+  #           docker compose up -d backend
   
-            docker compose ps
+  #           docker compose ps
           
